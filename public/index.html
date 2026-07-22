@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DhakaBoard — Live DSE Market Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Ticker tape: the signature element. Real DSE floor boards scroll live prices; this mirrors that. -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-loading">Loading live prices…</span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">DB</span>
+      <div class="brand-text">
+        <span class="brand-name">DhakaBoard</span>
+        <span class="brand-sub">Dhaka Stock Exchange · Live Tracker</span>
+      </div>
+    </div>
+
+    <div class="market-status" id="marketStatus">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusLabel">Checking market…</span>
+    </div>
+
+    <div class="index-strip" id="indexStrip">
+      <div class="index-chip"><span class="index-name">DSEX</span><span class="index-val" id="dsexVal">—</span></div>
+      <div class="index-chip"><span class="index-name">DS30</span><span class="index-val" id="ds30Val">—</span></div>
+      <div class="index-chip"><span class="index-name">DSES</span><span class="index-val" id="dsesVal">—</span></div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search symbol, e.g. GP, ACI, BEXIMCO…" autocomplete="off" />
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="content">
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="all">All Stocks</button>
+        <button class="tab" data-tab="gainers">Top Gainers</button>
+        <button class="tab" data-tab="losers">Top Losers</button>
+        <button class="tab" data-tab="traded">Most Traded</button>
+        <button class="tab" data-tab="watchlist">Watchlist <span id="watchCount" class="tab-count"></span></button>
+      </nav>
+
+      <div class="table-wrap">
+        <table class="stock-table" id="stockTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th data-sort="symbol">Symbol</th>
+              <th data-sort="ltp" class="num">LTP</th>
+              <th data-sort="change" class="num">Change</th>
+              <th data-sort="changePercent" class="num">% Change</th>
+              <th data-sort="high" class="num">High</th>
+              <th data-sort="low" class="num">Low</th>
+              <th data-sort="ycp" class="num">YCP</th>
+              <th data-sort="volume" class="num">Volume</th>
+              <th data-sort="value" class="num">Value (mn)</th>
+            </tr>
+          </thead>
+          <tbody id="stockTableBody">
+            <tr><td colspan="10" class="empty-state">Loading live market data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="disclaimer">Data scraped from DSE's public site for personal tracking use. Prices may lag the live floor by up to a minute. Not investment advice.</p>
+    </section>
+
+    <aside class="sidebar">
+      <div class="card">
+        <h3>DSEX — last 30 sessions</h3>
+        <canvas id="indexChart" height="160"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Today's Snapshot</h3>
+        <dl class="snapshot" id="snapshot">
+          <div><dt>Total Trades</dt><dd id="snapTrades">—</dd></div>
+          <div><dt>Total Volume</dt><dd id="snapVolume">—</dd></div>
+          <div><dt>Total Value (mn)</dt><dd id="snapValue">—</dd></div>
+          <div><dt>Market Cap (mn)</dt><dd id="snapCap">—</dd></div>
+        </dl>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <span>DhakaBoard is an independent tracker, not affiliated with DSE. Auto-refreshes every 30s.</span>
+    <span id="lastUpdated"></span>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
